@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 @RestController
 public class TriangulationController {
@@ -118,10 +119,10 @@ public class TriangulationController {
 
             int row = random.nextInt(3) -1;
             int col = random.nextInt(3) -1;
-            System.out.println(row + " " + col);
-            if (floorplan[x+row][y+col] == 2) {
-                x = x+ row;
-                y= y+col;
+            if (floorplan[y+row][x+col] == 2) {
+                x = x+ col;
+                y= y+row;
+                System.out.println(x + " " + y + " " + floorplan[y][x]);
                 break;
             }
         }
@@ -142,5 +143,27 @@ public class TriangulationController {
 
         return ResponseEntity.ok( new Coordinates(x,y));
 
+    }
+
+    @GetMapping("/triangulate_demo1")
+    public ResponseEntity<Coordinates> triangulateDemo1() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter X: \n");
+        int x = 0;
+        int y=0;
+        double input = scanner.nextInt();
+        if(input==1){
+            x = 1;
+        }else if(input == 2){
+            x = -1;
+        }else if(input == 3){
+            y = 1;
+        }else if(input == 4){
+            y = -1;
+        }
+
+        return ResponseEntity.ok( new Coordinates(x,y));
     }
 }
